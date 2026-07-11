@@ -25,8 +25,9 @@ func main() {
 	router := gin.Default()
 
 	routes.Register(router, db)
-
-	log.Printf("Server listening on :%s", cfg.Port)
+	logger := logger.New()
+	logger.Info("Server listening on :%s", cfg.Port)
+	// log.Printf("Server listening on :%s", cfg.Port)
 
 	if err := router.Run(":" + cfg.Port); err != nil {
 		log.Fatal(err)
