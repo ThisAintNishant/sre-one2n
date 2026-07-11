@@ -1,19 +1,34 @@
 package main
 
 import (
-	"net/http"
+	"log"
+
+	"github.com/ThisAintNishant/sre-bootcamp/internal/config"
+	"github.com/ThisAintNishant/sre-bootcamp/internal/database"
+	"github.com/ThisAintNishant/sre-bootcamp/internal/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
+	cfg := config.Load()
+
+	db, err := database.New(cfg)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Welcome to SRE Bootcamp API",
-		})
-	})
+	routes.Register(router, db)
 
-	router.Run(":8080")
+	log.Printf("Server listening on :%s", cfg.Port)
+
+	if err := router.Run(":" + cfg.Port); err != nil {
+		log.Fatal(err)
+	}
 }
