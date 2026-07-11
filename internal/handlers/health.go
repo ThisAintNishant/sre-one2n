@@ -10,6 +10,7 @@ import (
 
 type HealthHandler struct {
 	DB *pgxpool.Pool
+	StartedAt time.Time
 }
 
 func NewHealthHandler(db *pgxpool.Pool) *HealthHandler {
@@ -35,6 +36,8 @@ func (h *HealthHandler) Ready(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":   "UP",
 		"database": "UP",
+		"version":  version.Version,
+		"uptime":   time.Since(h.StartedAt).Round(time.Second).String(),
 	})
 
 }

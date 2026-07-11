@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-
+	startedAt := time.Now()
 	cfg := config.Load()
 
 	db, err := database.New(cfg)
