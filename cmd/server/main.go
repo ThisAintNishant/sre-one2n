@@ -1,16 +1,15 @@
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/ThisAintNishant/sre-one2n/internal/config"
-	"github.com/ThisAintNishant/sre-one2n/internal/database"
-	"github.com/ThisAintNishant/sre-one2n/internal/routes"
+    "github.com/ThisAintNishant/sre-one2n/internal/config"
+    "github.com/ThisAintNishant/sre-one2n/internal/database"
+    "github.com/ThisAintNishant/sre-one2n/internal/routes"
 
-	"github.com/swaggo/files"
-    "github.com/swaggo/gin-swagger"
+    _ "github.com/ThisAintNishant/sre-one2n/docs"
 
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
 )
 
 func main() {
