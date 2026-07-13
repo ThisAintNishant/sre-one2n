@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ThisAintNishant/sre-one2n/internal/models"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -91,13 +92,81 @@ func (r *PostgresStudentRepository) GetAll(ctx context.Context) ([]models.Studen
 }
 
 func (r *PostgresStudentRepository) GetByID(ctx context.Context, id string) (*models.Student, error) {
-	return nil, nil
+
+	query := `
+	SELECT
+		id,
+		first_name,
+		last_name,
+		email,
+		age,
+		created_at,
+		updated_at
+	FROM students
+	WHERE id = $1;
+	`
+
+	var student models.Student
+
+	err := r.db.QueryRow(ctx, query, id).Scan(
+		&student.ID,
+		&student.FirstName,
+		&student.LastName,
+		&student.Email,
+		&student.Age,
+		&student.CreatedAt,
+		&student.UpdatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &student, nil
 }
 
 func (r *PostgresStudentRepository) Update(ctx context.Context, id string, student *models.Student) error {
+
+	query := `
+	UPDATE students
+	SET first_name = $1, last_name = $2, email = $3, age = $4, updated_at = NOW()
+	WHERE id = $5
+	RETURNING id, created_at, updated_at
+	`
+
+	err := r.db.QueryRow(
+		ctx,
+		query,
+		student.FirstName,
+		student.LastName,
+		student.Email,
+		student.Age,
+		id,
+	).Scan(
+		&student.ID,
+		&student.CreatedAt,
+		&student.UpdatedAt,
+	)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func (r *PostgresStudentRepository) Delete(ctx context.Context, id string) error {
+
+	query := `DELETE FROM students WHERE id = $1`
+
+	result, err := r.db.Exec(ctx, query, id)
+	if err != nil {
+		return err
+	}
+
+	if result.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+
 	return nil
 }

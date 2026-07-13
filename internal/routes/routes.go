@@ -37,4 +37,7 @@ func Register(router *gin.Engine, db *pgxpool.Pool) {
 	
 	router.POST("/students", studentHandler.Create)
 	router.GET("/students", studentHandler.GetAll)
+	router.GET("/students/:id", studentHandler.GetByID)
+	router.PUT("/students/:id", studentHandler.Update)
+	router.DELETE("/students/:id", studentHandler.Delete)
 }
