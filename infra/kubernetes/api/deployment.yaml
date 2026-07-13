@@ -21,7 +21,7 @@ spec:
       containers:
         - name: api
 
-          image: sre-bootcamp-api:v1
+          image: sre-bootcamp-api:dev
 
           imagePullPolicy: Never
 

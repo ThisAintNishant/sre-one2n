@@ -1,4 +1,62 @@
+definitions:
+  models.Student:
+    properties:
+      age:
+        maximum: 150
+        minimum: 1
+        type: integer
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /students:
+    post:
+      consumes:
+      - application/json
+      description: Create a new student
+      parameters:
+      - description: Student
+        in: body
+        name: student
+        required: true
+        schema:
+          $ref: '#/definitions/models.Student'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Student'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Student
+      tags:
+      - Students
 swagger: "2.0"

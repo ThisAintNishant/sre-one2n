@@ -10,6 +10,9 @@ import (
 
     swaggerFiles "github.com/swaggo/files"
     ginSwagger "github.com/swaggo/gin-swagger"
+
+	"github.com/ThisAintNishant/sre-one2n/internal/repository"
+	"github.com/ThisAintNishant/sre-one2n/internal/service"
 )
 
 func Register(router *gin.Engine, db *pgxpool.Pool) {
@@ -27,4 +30,10 @@ func Register(router *gin.Engine, db *pgxpool.Pool) {
 
 	router.GET("/swagger/*any",
     ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	repo := repository.NewPostgresStudentRepository(db)
+	svc := service.NewStudentService(repo)
+	studentHandler := handlers.NewStudentHandler(svc)
+
+router.POST("/students", studentHandler.Create)
 }
