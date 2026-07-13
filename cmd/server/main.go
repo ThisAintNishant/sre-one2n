@@ -3,9 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/ThisAintNishant/sre-bootcamp/internal/config"
-	"github.com/ThisAintNishant/sre-bootcamp/internal/database"
-	"github.com/ThisAintNishant/sre-bootcamp/internal/routes"
+	"github.com/ThisAintNishant/sre-one2n/internal/config"
+	"github.com/ThisAintNishant/sre-one2n/internal/database"
+	"github.com/ThisAintNishant/sre-one2n/internal/routes"
+
+	"github.com/swaggo/files"
+    "github.com/swaggo/gin-swagger"
 
 	"github.com/gin-gonic/gin"
 )

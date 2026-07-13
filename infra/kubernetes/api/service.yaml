@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: sre-api
+  namespace: sre-bootcamp
+
+spec:
+  selector:
+    app: sre-api
+
+  ports:
+    - port: 80
+      targetPort: 8080
+
+  type: NodePort

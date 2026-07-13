@@ -3,10 +3,13 @@ package routes
 import (
 	"net/http"
 
-	"github.com/ThisAintNishant/sre-bootcamp/internal/handlers"
+	"github.com/ThisAintNishant/sre-one2n/internal/handlers"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 func Register(router *gin.Engine, db *pgxpool.Pool) {
@@ -21,4 +24,7 @@ func Register(router *gin.Engine, db *pgxpool.Pool) {
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	
 	router.GET("/health/ready", health.Ready)
+
+	router.GET("/swagger/*any",
+    ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
