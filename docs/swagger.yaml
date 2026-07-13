@@ -26,6 +26,26 @@ info:
   contact: {}
 paths:
   /students:
+    get:
+      description: Returns all students
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Student'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all students
+      tags:
+      - Students
     post:
       consumes:
       - application/json

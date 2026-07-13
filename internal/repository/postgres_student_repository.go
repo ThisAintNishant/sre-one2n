@@ -41,7 +41,53 @@ func (r *PostgresStudentRepository) Create(ctx context.Context, student *models.
 }
 
 func (r *PostgresStudentRepository) GetAll(ctx context.Context) ([]models.Student, error) {
-	return nil, nil
+
+	query := `
+	SELECT
+		id,
+		first_name,
+		last_name,
+		email,
+		age,
+		created_at,
+		updated_at
+	FROM students
+	ORDER BY created_at DESC;
+	`
+
+	rows, err := r.db.Query(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var students []models.Student
+
+	for rows.Next() {
+		var student models.Student
+
+		err := rows.Scan(
+			&student.ID,
+			&student.FirstName,
+			&student.LastName,
+			&student.Email,
+			&student.Age,
+			&student.CreatedAt,
+			&student.UpdatedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		students = append(students, student)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return students, nil
 }
 
 func (r *PostgresStudentRepository) GetByID(ctx context.Context, id string) (*models.Student, error) {

@@ -51,3 +51,25 @@ func (h *StudentHandler) Create(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, student)
 }
+
+// GetStudents godoc
+//
+// @Summary Get all students
+// @Description Returns all students
+// @Tags Students
+// @Produce json
+// @Success 200 {array} models.Student
+// @Failure 500 {object} map[string]string
+// @Router /students [get]
+func (h *StudentHandler) GetAll(c *gin.Context) {
+
+	students, err := h.service.GetAll(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, students)
+}

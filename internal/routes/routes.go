@@ -34,6 +34,7 @@ func Register(router *gin.Engine, db *pgxpool.Pool) {
 	repo := repository.NewPostgresStudentRepository(db)
 	svc := service.NewStudentService(repo)
 	studentHandler := handlers.NewStudentHandler(svc)
-
-router.POST("/students", studentHandler.Create)
+	
+	router.POST("/students", studentHandler.Create)
+	router.GET("/students", studentHandler.GetAll)
 }

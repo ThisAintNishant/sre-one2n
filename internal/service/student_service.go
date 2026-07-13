@@ -20,3 +20,7 @@ func NewStudentService(repo repository.StudentRepository) *StudentService {
 func (s *StudentService) Create(ctx context.Context, student *models.Student) error {
 	return s.repo.Create(ctx, student)
 }
+
+func (s *StudentService) GetAll(ctx context.Context) ([]models.Student, error) {
+	return s.repo.GetAll(ctx)
+}
